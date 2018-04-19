@@ -28,33 +28,48 @@ dbRefObject.on('value', snap => console.log(snap.val()));
   const btnLogIn = document.getElementById("btnLogIn");
   const btnSignUp = document.getElementById("btnSignUp");
   const btnLogout = document.getElementById("btnLogout");
+  firebase.auth().onAuthStateChanged( user => {
+      if (user) {
+          console.log("user is signed in");
+      }else{
+          console.log("user is not signed in");
+      }
+  })
 
   //Add login even
   btnLogIn.addEventListener("click", e => {
-      //Get email and pass
-      const email = txtEmail.value;
-      const pass = txtPassword;
-      const auth = firebase.auth();
-      //Sign in
-      const promise = auth.signInWithEmailAndPassword(email, pass);
-      promise.catch(e => console.log(e.message));
+    e.preventDefault();
+    //Get email and pass
+    const email = txtEmail.value;
+    const pass = txtPassword.value;
+    const auth = firebase.auth();
+    //Sign in
+    const promise = auth.signInWithEmailAndPassword(email, pass);
+    promise.then( data => console.log(data));
+    promise.catch(e => console.log(e.message));
   });
 
   //Add signup even
   btnSignUp.addEventListener("click", e => {
-       //Get email and pass
-       //TODO: CHECK FOR REAL EMAIL 
-       const email = txtEmail.value;
-       const pass = txtPassword;
-       const auth = firebase.auth();
-       //Sign in
-       const promise = auth.createUserWithEmailAndPassword(email, pass);
-       promise.catch(e => console.log(e.message));
+    e.preventDefault();
+    //Get email and pass
+    //TODO: CHECK FOR REAL EMAIL 
+    const email = txtEmail.value;
+    const pass = txtPassword.value;
+    console.log("password is ", pass);
+    const auth = firebase.auth();
+    //Sign in
+    const promise = auth.createUserWithEmailAndPassword(email, pass);
+    promise.then( data => alert(data)  ); 
+    promise.catch(e => console.log(e.message));
 
   });
 
   btnLogout.addEventListener("click", e => {
-      firebase.auth().signOut;
+    e.preventDefault();
+
+    firebase.auth().signOut();
+    
   })
 
 
